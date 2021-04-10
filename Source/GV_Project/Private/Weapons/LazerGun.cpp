@@ -24,7 +24,7 @@ ALazerGun::ALazerGun(const class FObjectInitializer& PCIP)
 	Start = GetActorLocation();
 	MaxDamage = 40;
 	MinDamage = 10;
-	DamageClimbRate = 2;
+	DamageClimbRate = 4;
 	FireRate = 0.2;
 	MaxAmmo = 30;
 	Range = 1000;
@@ -84,7 +84,7 @@ void ALazerGun::EndShoot_Implementation()
 	LazerParticle->SetActive(false);
 	if (Ammo > 0)
 	{
-		ShootLazer();
+		ShootFunction();
 	}
 	IsShooting = false;
 }
@@ -147,7 +147,7 @@ void ALazerGun::ShootFunction()
 				// Once we run out of ammo, reset the lazer's damage and start reloading
 				Damage = MinDamage;
 				GetWorld()->GetTimerManager().ClearTimer(Timer);
-				LazerParticle->SetActive(false);
+				EndShoot_Implementation();
 				Villian->ReloadingAnimation = true;
 				GetWorld()->GetTimerManager().SetTimer(Reloading, this, &ALazerGun::Reload_Implementation, ReloadSpeed, false);
 			}
@@ -155,7 +155,7 @@ void ALazerGun::ShootFunction()
 		else
 		{
 			// If we're busy doing something else reset the damage and do nothing.
-			LazerParticle->SetActive(false);
+			EndShoot_Implementation();
 			GetWorld()->GetTimerManager().ClearTimer(Timer);
 			Damage = MinDamage;
 		}

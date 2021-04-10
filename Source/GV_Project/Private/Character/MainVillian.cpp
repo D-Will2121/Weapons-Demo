@@ -267,9 +267,11 @@ void AMainVillian::EquipWeapon()
 		{
 			LauncherReference->Gun->SetHiddenInGame(false);
 		}
+
+		WeaponName = FString(TEXT("Rocket"));
+
 	}
 
-	WeaponName = FString(TEXT("Rocket"));
 
 }
 
